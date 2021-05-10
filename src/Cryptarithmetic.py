@@ -1,4 +1,9 @@
 from FileProcessing import FileProcessing
+import os.path
+import time
+
+# Prana Gusriana
+# 13519195
 
 class Cryptarithmetic:
     def __init__(self, namaFile):
@@ -26,7 +31,7 @@ class Cryptarithmetic:
         # Mengecek constrain, misal ABC + DEF = GHI, memiliki constrain:
         # 1. (C + F) mod 10 = I
         # 2. ((B + E) + (C + F) div 10) mod 10 = H
-        # 3. ((A + G) + ((B + E) + (C + F) div 10) div 10) mod 10 = G
+        # 3. ((A + D) + ((B + E) + (C + F) div 10) div 10) = G
         for i in range(maksLen):
             hsl = 0
             for strOpr in self.operand:
@@ -40,8 +45,12 @@ class Cryptarithmetic:
             if(idxResult > k):
                 return True
             # Jika tidak memenuhi salah satu constraint maka akan mengembalikan nilai False
-            if((hsl+Xi) % 10 != xResult):
-                return False
+            if(i != maksLen-1):
+                if((hsl+Xi) % 10 != xResult):
+                    return False
+            else:
+                if(hsl+Xi != xResult):
+                    return False
             Xi = (hsl + Xi)//10
         # Cek jika karakter valid atau tidak (huruf awal jika panjangnya lebih dari satu dan akan disubstitusi dengan 0 maka return False)
         for strOpRes in self.oprresult:
@@ -85,11 +94,26 @@ class Cryptarithmetic:
     # Fungsi yang dipanggil jika ingin menyelesaikan suatu persoalan cryptarithmetic
     def solve(self):
         self.n = len(self.idxchr) - 1
+        print("="*50)
+        print(" "*20 + "PERSOALAN:")
+        print("="*50)
+        i = 0
+        for opr in self.oprresult:
+            if(i != len(self.oprresult) - 1):
+                print(opr)
+            else:
+                print("---------- +")
+                print(opr)
+            i += 1
         if(self.n < 10):
             self.arr = [-1 for i in range(self.n+1)]
+            start_time = time.time()
             self.backTracking(0)
             if(len(self.sol) > 0):
                 self.printSolusi()
+                print("="*110)
+                print(f"Persoalan ini dapat diselesaikan dengan menggunakan algoritma backtracking dalam waktu {time.time() - start_time} detik")
+                print("="*110)
             else:
                 print("Tidak memiliki solusi")
         else:
@@ -98,5 +122,9 @@ class Cryptarithmetic:
 # Main function
 # Untuk melakukan run: buka folder src, lalu ketikkan pada command prompt : python Cryptarithmetic.py
 if __name__ == "__main__":
-    cr = Cryptarithmetic("test3.txt")
+    N = input("Masukkan nama file: ")
+    while (not(os.path.isfile("../test/"+N))):
+        print("File tidak ditemukan silahkan masukkan kembali input nama file,")
+        N = input("Masukkan nama file: ")
+    cr = Cryptarithmetic(N)
     cr.solve()
