@@ -106,16 +106,19 @@ class Cryptarithmetic:
                 print(opr)
             i += 1
         if(self.n < 10):
-            self.arr = [-1 for i in range(self.n+1)]
-            start_time = time.time()
-            self.backTracking(0)
-            if(len(self.sol) > 0):
-                self.printSolusi()
-                print("="*110)
-                print(f"Persoalan ini dapat diselesaikan dengan menggunakan algoritma backtracking dalam waktu {time.time() - start_time} detik")
-                print("="*110)
+            if(self.fileObj.isSolveable()):
+                self.arr = [-1 for i in range(self.n+1)]
+                start_time = time.time()
+                self.backTracking(0)
+                if(len(self.sol) > 0):
+                    self.printSolusi()
+                    print("="*110)
+                    print(f"Persoalan ini dapat diselesaikan dengan menggunakan algoritma backtracking dalam waktu {time.time() - start_time} detik")
+                    print("="*110)
+                else:
+                    print("Tidak memiliki solusi")
             else:
-                print("Tidak memiliki solusi")
+                print("Persoalan tersebut tidak dapat diselesaikan")
         else:
             print("Tidak bisa diselesaikan karena jumlah huruf uniknya lebih dari 10")
 

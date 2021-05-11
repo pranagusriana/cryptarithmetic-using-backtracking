@@ -12,6 +12,13 @@ class FileProcessing:
                 maks = len(string)
         return maks
 
+    def isSolveable(self):
+        maksOp = len(self.operand[0])
+        for op in self.operand:
+            if (maksOp < len(op)):
+                maksOp = len(op)
+        return len(self.result) >= maksOp and len(self.result) <= maksOp + 1
+
     def readFile(self, namaFile):
         file = open("../test/"+namaFile, "r")
         file_input = file.read().splitlines()
@@ -34,5 +41,7 @@ class FileProcessing:
                         idx += 1
 
 if __name__=="__main__":
+    N = input("Masukkan nama file: ")
     p = FileProcessing()
-    p.readFile("test.txt")
+    p.readFile(N)
+    print(p.isSolveable())
